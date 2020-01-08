@@ -18,14 +18,14 @@ MAP WorkRelation {
 /**工作负责人**/
 BOOK WorkResponsible {
     id,
-    workplan ID WorkPlan,
+    workItem ID WorkItem,
     responsible ID [$user] --负责人
 }
 
 /**工作明细处理结果**/
 BOOK WorkItemResult{
     id,
-    workplan ID WorkPlan,
+    workItem ID WorkItem,
     responsible ID [$user],
     evaluate dec(12, 2),
     stamp (create, update)
