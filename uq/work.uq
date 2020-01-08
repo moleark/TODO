@@ -1,35 +1,40 @@
 
-/**工作项目**/
-TUID WorkItem {
+--工作项目
+TUID WorkItem (
     id,
     main description char(100), --说明
     main content text,          --内容
     main grade dec(12, 2),      --等级
     main author ID [$user],     --发布人
     stamp (create, update)      --发布时间
-}
+);
+ 
 
 /**工作项目关系**/
-MAP WorkRelation {
+MAP WorkRelation(
     key parent ID WorkItem,
     key child ID WorkItem
-}
+);
+
+--员工和内部关联关系
+MAP WebuserEmployee( 
+    key webuser ID [$user], --负责人
+    key employee ID Employee
+);
+
 
 /**工作负责人**/
-BOOK WorkResponsible {
-    id,
-    workItem ID WorkItem,
+BOOK WorkResponsible( 
+    key workItem ID WorkItem,
     responsible ID [$user] --负责人
-}
+);
 
 /**工作明细处理结果**/
-BOOK WorkItemResult{
-    id,
-    workItem ID WorkItem,
+BOOK WorkItemResult( 
+    key workItem ID WorkItem,
     responsible ID [$user],
-    evaluate dec(12, 2),
-    stamp (create, update)
-}
+    evaluate dec(12, 2)
+);
  
  
  

@@ -1,0 +1,7 @@
+import JKHr = 百灵威系统工程部/hr;
+
+TUID Employee from JKHr (
+    id,
+    firstName char(20),
+    lastName char(20),
+);
