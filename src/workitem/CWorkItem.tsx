@@ -5,6 +5,7 @@ import { VMain } from './VMain';
 import { PageItems, Query } from 'tonva';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import { VCreateWorkItem } from "./VCreateWorkItem";
 
 // 图片
 class PageWorkItem extends PageItems<any> {
@@ -41,6 +42,16 @@ export class CWorkItem extends CUqBase {
 
     loadList = async () => {
         await this.searchWorkItemByKey("");
+    }
+
+    showCreateWorkItem = () => {
+        this.openVPage(VCreateWorkItem);
+    }
+
+    saveWorkItem = async () => {
+        let parrm = { description: "cehsi说明", content: "cehsi内容", grade: "1" };
+        await this.uqs.todo.WorkItem.save(undefined, parrm);
+        await this.uqs.todo.WorkItem.save(1, parrm);
     }
 
     render = observer(() => {

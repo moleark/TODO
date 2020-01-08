@@ -51,7 +51,7 @@ PAGE (
 
     PAGE select w.id, w.description, w.content, w.grade, w.author
     from    WorkItem as w
-            join WorkResponsible as wr on w.id = wr.workItem
+            left join WorkResponsible as wr on w.id = wr.workItem
     where   w.id > $pageStart 
             and ( w.author = $user or wr.responsible = $user )--找自己发布或者自己负责的工作任务
             and (w.description like key2 )

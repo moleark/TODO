@@ -13,13 +13,15 @@ export class VMain extends VPage<CWorkItem> {
     }
 
     private page = observer(() => {
-        let { searchWorkItemByKey, pageWorkItem } = this.controller;
+
+        let { searchWorkItemByKey, pageWorkItem, showCreateWorkItem } = this.controller;
+
         let right = <div className="w-19c d-flex">
             <SearchBox className="w-80 mt-1 mr-2"
                 size='sm'
                 onSearch={(key: string) => searchWorkItemByKey(key)}
                 placeholder="请输入工作任务关键字" />
-            <button className="btn btn-success btn-sm ml-4 mr-2 align-self-center" onClick={undefined}>
+            <button className="btn btn-success btn-sm ml-4 mr-2 align-self-center" onClick={showCreateWorkItem}>
                 <FA name="plus" />
             </button>
         </div>;
