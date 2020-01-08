@@ -1,6 +1,11 @@
-import { Tuid, Map, Query, Action, Sheet } from "tonva";
+import { Tuid, Query } from "tonva";
+
+
+export interface UqTodo {
+    WorkItem: Tuid;
+    SearchWorkItem: Query;
+}
 
 export interface UQs {
-    order: any;
-    webBuilder: any;
+    todo: UqTodo;
 }

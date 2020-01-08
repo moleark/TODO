@@ -12,7 +12,7 @@ class App extends React.Component {
     }
     public render() {
         //notLogined={this.onLogined} 
-        return <NavView onLogined={this.onLogined} notLogined={this.onLogined} />
+        return <NavView onLogined={this.onLogined} />
     }
 }
 

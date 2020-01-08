@@ -35,6 +35,28 @@ BOOK WorkItemResult(
     responsible ID [$user],
     evaluate dec(12, 2)
 );
- 
+
+
+/** 搜索我的任务*/
+QUERY SearchWorkItem(key char(100))
+PAGE (
+     id bigint start 0,
+     description char(100), --说明
+     content text,          --内容
+     grade dec(12, 2),      --等级
+     author ID [$user]     --发布人
+) {
+    var key2 char(102);
+    set key2 = concat('%', key, '%');
+
+    PAGE select w.id, w.description, w.content, w.grade, w.author
+    from    WorkItem as w
+            join WorkResponsible as wr on w.id = wr.workItem
+    where   w.id > $pageStart 
+            and ( w.author = $user or wr.responsible = $user )--找自己发布或者自己负责的工作任务
+            and (w.description like key2 )
+    order by w.id
+    limit $pageSize;
+};
  
  
