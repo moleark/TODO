@@ -1,5 +1,5 @@
 
---工作项目
+/**工作项目**/
 TUID WorkItem (
     id,
     main description char(100), --说明

@@ -7,13 +7,13 @@ import { appConfig } from 'configuration';
 nav.setSettings(appConfig);
 class App extends React.Component {
 
-  private onLogined = async () => {
-    await start(CApp, appConfig);
-  }
-  public render() {
-
-    return <NavView onLogined={this.onLogined} />
-  }
+    private onLogined = async () => {
+        await start(CApp, appConfig);
+    }
+    public render() {
+        //notLogined={this.onLogined} 
+        return <NavView onLogined={this.onLogined} notLogined={this.onLogined} />
+    }
 }
 
 export default App;
