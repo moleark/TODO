@@ -8,7 +8,14 @@ TUID WorkItem (
     main author ID [$user],     --发布人
     stamp (create, update)      --发布时间
 );
- 
+
+/**工作状态**/
+TUID WorkStatus (
+    id,
+    main name char(100), --名称
+    stamp (create, update)      --发布时间
+);
+
 
 /**工作项目关系**/
 MAP WorkRelation(
@@ -23,7 +30,7 @@ MAP WebuserEmployee(
 );
 
 
-/**工作负责人**/
+/**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
 BOOK WorkResponsible( 
     key workItem ID WorkItem,
     responsible ID [$user] --负责人
@@ -32,7 +39,7 @@ BOOK WorkResponsible(
 /**工作明细处理结果**/
 BOOK WorkItemResult( 
     key workItem ID WorkItem,
-    responsible ID [$user],
+    status ID WorkStatus,
     evaluate dec(12, 2)
 );
 
