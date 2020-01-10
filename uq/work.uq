@@ -4,11 +4,11 @@ TUID WorkItem (
     id,
     main description char(100), --说明
     main content text,          --内容
-    main grade dec(12, 2),      --等级
+    main grade ID WorkGrade,      --等级
+    main deadline date, -- 要求完成时间
     main author ID [$user],     --发布人
     stamp (create, update)      --发布时间
 );
- 
 
 /**工作项目关系**/
 MAP WorkRelation(
@@ -23,33 +23,34 @@ MAP WebuserEmployee(
 );
 
 
-/**工作负责人**/
+/**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
 BOOK WorkResponsible( 
     key workItem ID WorkItem,
     responsible ID [$user] --负责人
 );
 
 /**工作明细处理结果**/
-BOOK WorkItemResult( 
+BOOK WorkResult( 
     key workItem ID WorkItem,
-    responsible ID [$user],
+    status ID WorkStatus,
     evaluate dec(12, 2)
 );
 
 
 /** 搜索我的任务*/
-QUERY SearchWorkItem(key char(100))
+QUERY SearchWork(key char(100))
 PAGE (
-     id bigint start 0,
-     description char(100), --说明
-     content text,          --内容
-     grade dec(12, 2),      --等级
-     author ID [$user]     --发布人
+    id bigint start 0,
+    description char(100), --说明
+    content text,          --内容
+    grade ID WorkGrade,      --等级
+    deadline date,   --期限
+    author ID [$user]     --发布人
 ) {
     var key2 char(102);
     set key2 = concat('%', key, '%');
 
-    PAGE select w.id, w.description, w.content, w.grade, w.author
+    PAGE select w.id, w.description, w.content, w.grade, w.deadline, w.author
     from    WorkItem as w
             left join WorkResponsible as wr on w.id = wr.workItem
     where   w.id > $pageStart 
@@ -58,5 +59,26 @@ PAGE (
     order by w.id
     limit $pageSize;
 };
- 
+
+/** 搜索我的任务*/
+QUERY SearchWorkItem( _parent ID WorkItem)
+returns ret (
+    id bigint,
+    description char(100), --说明
+    content text,          --内容
+    deadline date,   --期限
+    grade ID WorkGrade,      --等级
+    author ID [$user],   --发布人
+    responsible ID [$user]     --负责人
+) { 
+    into ret select w.id , w.description, w.content, w.deadline, w.grade, w.author, wp.responsible
+    from    WorkRelation as wr
+            join WorkItem as w  on wr.child = w.id
+            left join WorkResponsible as wp on w.id = wp.workItem
+    where   wr.parent = _parent
+    order by w.id;
+};
+
+
+
  

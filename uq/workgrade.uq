@@ -1,0 +1,26 @@
+
+TUID WorkGrade (
+    id,
+    main name char(100), --名称
+    main description char(100), --说明
+    main amount dec(12, 2),
+    stamp (create, update)      --发布时间
+);
+
+
+/** 搜索我的任务*/
+QUERY SearchWorkGrade(key char(100))
+PAGE (
+     id bigint start 0,
+     name char(100),
+     amount dec(12, 2)
+) {
+    var key2 char(102);
+    set key2 = concat('%', key, '%');
+
+    PAGE select w.id, w.name, w.amount
+    from    WorkGrade as w
+    where   w.id > $pageStart and (w.name like key2 )
+    order by w.id
+    limit $pageSize;
+};

@@ -1,0 +1,6 @@
+/**工作状态**/
+TUID WorkStatus (
+    id,
+    main name char(100), --名称
+    stamp (create, update)      --发布时间
+);
