@@ -10,10 +10,10 @@ export class VMain extends VPage<CApp> {
     }
 
     render = (param?: any): JSX.Element => {
-        let { cMe, cWorkItem } = this.controller;
+        let { cMe, cWorkItem, cEmployee } = this.controller;
         let faceTabs = [
             { name: 'work', label: '工作', icon: 'th-large', content: cWorkItem.tab, onShown: cWorkItem.loadList, notify: undefined },
-            { name: 'addressbook', label: '通讯录', icon: 'address-book', content: cWorkItem.tab, onShown: cWorkItem.loadList },
+            { name: 'addressbook', label: '通讯录', icon: 'address-book', content: cEmployee.tab, onShown: cEmployee.loadList },
             { name: 'me', label: '我的', icon: 'user', content: cMe.tab, onShown: cWorkItem.loadList },
         ].map(v => {
             let { name, label, icon, content, notify, onShown } = v;

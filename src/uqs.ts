@@ -8,6 +8,12 @@ export interface UqTodo {
     SearchWorkGrade: Query;
 }
 
+export interface UqHr {
+    SearchEmployee: Query;
+}
+
+
 export interface UQs {
     todo: UqTodo;
+    hr: UqHr;
 }
