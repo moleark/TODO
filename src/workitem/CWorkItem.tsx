@@ -2,12 +2,12 @@
 import * as React from "react";
 import { CUqBase } from '../CBase';
 import { VMain } from './VMain';
-import { PageItems, Query } from 'tonva';
+import { PageItems, Query, Context } from 'tonva';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { VCreateWorkItem } from "./VCreateWorkItem";
+import { VWorkItemDetail } from "./VWorkItemDetail";
 
-// 图片
 class PageWorkItem extends PageItems<any> {
     private searchWorkItemQuery: Query;
     constructor(searchQuery: Query) {
@@ -28,35 +28,56 @@ class PageWorkItem extends PageItems<any> {
 
 
 export class CWorkItem extends CUqBase {
-    @observable items: any[];
+
     @observable pageWorkItem: PageWorkItem;
+    @observable current: any;
 
     protected async internalStart() {
-
     }
 
     searchWorkItemByKey = async (key: string) => {
-        this.pageWorkItem = new PageWorkItem(this.uqs.todo.SearchWorkItem);
+        this.pageWorkItem = new PageWorkItem(this.uqs.todo.SearchWork);
         this.pageWorkItem.first({ key: key });
     }
 
-    loadList = async () => {
-        await this.searchWorkItemByKey("");
-    }
-
+    //添加任务Start
     showCreateWorkItem = () => {
+        this.current = undefined;
+        this.openVPage(VCreateWorkItem);
+    }
+    showEiditWorkItem = () => {
         this.openVPage(VCreateWorkItem);
     }
 
-    saveWorkItem = async () => {
-        let parrm = { description: "cehsi说明", content: "cehsi内容", grade: "1" };
-        await this.uqs.todo.WorkItem.save(undefined, parrm);
-        await this.uqs.todo.WorkItem.save(1, parrm);
+    pickGrade = async (context: Context, name: string, value: number): Promise<any> => {
+        return await this.cApp.cWorkGrade.call();
     }
+
+    saveWorkItem = async (id: number, param: any) => {
+        let { description, content, grade, deadline } = param;
+        let parrm = { description: description, content: content, deadline: deadline, grade: grade.id, author: this.user.id };
+        await this.uqs.todo.WorkItem.save(id, parrm);
+        await this.loadList();
+    }
+    //添加任务End
+
+    //任务明细 Start
+    showWorkItemDetail = async (model: any) => {
+        let { id } = model;
+        this.current = await this.uqs.todo.WorkItem.load(id);
+        this.openVPage(VWorkItemDetail);
+    }
+
+    //任务明细 End
+
 
     render = observer(() => {
         return this.renderView(VMain)
     })
+
+    loadList = async () => {
+        await this.searchWorkItemByKey("");
+    }
 
     tab = () => {
         return <this.render />;
