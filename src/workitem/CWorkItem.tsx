@@ -30,8 +30,6 @@ class PageWorkItem extends PageItems<any> {
 export class CWorkItem extends CUqBase {
 
     @observable pageWorkItem: PageWorkItem;
-    @observable current: any;
-
     protected async internalStart() {
     }
 
@@ -42,11 +40,13 @@ export class CWorkItem extends CUqBase {
 
     //添加任务Start
     showCreateWorkItem = () => {
-        this.current = undefined;
         this.openVPage(VCreateWorkItem);
     }
-    showEiditWorkItem = () => {
-        this.openVPage(VCreateWorkItem);
+
+    showEiditWorkItem = async (model: any) => {
+        let { id } = model;
+        let current = await this.uqs.todo.WorkItem.load(id);
+        this.openVPage(VCreateWorkItem, current);
     }
 
     pickGrade = async (context: Context, name: string, value: number): Promise<any> => {
@@ -64,12 +64,11 @@ export class CWorkItem extends CUqBase {
     //任务明细 Start
     showWorkItemDetail = async (model: any) => {
         let { id } = model;
-        this.current = await this.uqs.todo.WorkItem.load(id);
-        this.openVPage(VWorkItemDetail);
+        let current = await this.uqs.todo.WorkItem.load(id);
+        this.openVPage(VWorkItemDetail, current);
     }
 
     //任务明细 End
-
 
     render = observer(() => {
         return this.renderView(VMain)
