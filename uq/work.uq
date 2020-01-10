@@ -16,13 +16,6 @@ MAP WorkRelation(
     key child ID WorkItem
 );
 
---员工和内部关联关系
-MAP WebuserEmployee( 
-    key webuser ID [$user], --负责人
-    key employee ID Employee
-);
-
-
 /**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
 BOOK WorkResponsible( 
     key workItem ID WorkItem,

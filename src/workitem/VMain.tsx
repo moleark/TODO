@@ -42,7 +42,6 @@ export class VMain extends VPage<CWorkItem> {
             <div>{description}</div>
             <div className="samll text-muted"> <small>王彦彩</small></div>
         </div>;
-
         return <LMR className="my-2 mx-3" left={left} right={right}>
         </LMR >;
     }

@@ -1,0 +1,7 @@
+
+--员工和内部关联关系
+MAP WebuserEmployee( 
+    key webuser ID [$user], --负责人
+    key employee ID Employee
+);
+
