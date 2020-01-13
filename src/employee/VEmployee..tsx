@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { VPage, Page, List, LMR, EasyDate } from 'tonva';
+import { VPage, Page } from 'tonva';
 import { observer } from 'mobx-react';
 import { CEmployee } from './CEmployee';
 import { setting } from 'configuration';

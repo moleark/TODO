@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CUqBase } from '../CBase';
 import { PageItems, Query } from 'tonva';
 import { observable } from 'mobx';
-import { VMain } from './VMain';
+import { VMain } from './VEmployee.';
 import { observer } from 'mobx-react';
 
 // 员工
@@ -41,8 +41,6 @@ export class CEmployee extends CUqBase {
     returnEmployee = (model: any) => {
         this.returnCall(model);
     }
-    //任务明细 End
-
 
     render = observer(() => {
         return this.renderView(VMain)

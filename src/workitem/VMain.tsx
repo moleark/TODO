@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { VPage, Page, SearchBox, FA, List, LMR, EasyDate } from 'tonva';
+import { VPage, Page, SearchBox, List, LMR, EasyDate } from 'tonva';
 import { CWorkItem } from './CWorkItem';
 import { setting } from 'configuration';
 import { observer } from 'mobx-react';
@@ -39,7 +39,7 @@ export class VMain extends VPage<CWorkItem> {
             <div className="samll"> <small>{tv(grade, v => v.name)}</small></div>
         </div >;
         let left = <div>
-            <div>{description}</div>
+            <div><strong>{description} </strong></div>
             <div className="samll text-muted"> <small>王彦彩</small></div>
         </div>;
         return <LMR className="my-2 mx-3" left={left} right={right}>
