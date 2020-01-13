@@ -7,8 +7,11 @@ import { setting } from 'configuration';
 export class VCreateWorkItem extends VPage<CWorkItem> {
     private form: Form;
     private item: any;
+    private parent: any;
     async open(param?: any) {
-        this.item = param;
+        let { item, parent } = param;
+        this.item = item;
+        this.parent = parent;
         this.openPage(this.page);
     }
 
@@ -52,7 +55,7 @@ export class VCreateWorkItem extends VPage<CWorkItem> {
     private onFormButtonClick = async (name: string, context: Context) => {
         let { saveWorkItem } = this.controller;
         let id = this.item && this.item.id;
-        await saveWorkItem(id, context.form.data);
+        await saveWorkItem(id, context.form.data, this.parent);
         this.closePage();
     }
 

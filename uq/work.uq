@@ -7,6 +7,7 @@ TUID WorkItem (
     main grade ID WorkGrade,      --等级
     main deadline date, -- 要求完成时间
     main author ID [$user],     --发布人
+    main isValid smallint default 1,
     stamp (create, update)      --发布时间
 );
 
@@ -29,7 +30,6 @@ BOOK WorkResult(
     evaluate dec(12, 2)
 );
 
-
 /** 搜索我的任务*/
 QUERY SearchWork(key char(100))
 PAGE (
@@ -46,9 +46,11 @@ PAGE (
     PAGE select w.id, w.description, w.content, w.grade, w.deadline, w.author
     from    WorkItem as w
             left join WorkResponsible as wr on w.id = wr.workItem
-    where   w.id > $pageStart 
-            and ( w.author = $user or wr.responsible = $user )--找自己发布或者自己负责的工作任务
-            and (w.description like key2 )
+    where   w.id > $pageStart and w.isValid = 1 and ( w.description like key2 )
+            and (
+                wr.responsible = $user or
+                ( w.author = $user and not exists( select 1 from WorkRelation as ww where w.id = ww.child ) )--找自己发布或者自己负责的工作任务
+            )
     order by w.id
     limit $pageSize;
 };
@@ -68,7 +70,7 @@ returns ret (
     from    WorkRelation as wr
             join WorkItem as w  on wr.child = w.id
             left join WorkResponsible as wp on w.id = wp.workItem
-    where   wr.parent = _parent
+    where   wr.parent = _parent and w.isValid = 1
     order by w.id;
 };
 
