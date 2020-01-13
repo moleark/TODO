@@ -7,6 +7,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { VCreateWorkItem } from "./VCreateWorkItem";
 import { VWorkItemDetail } from "./VWorkItemDetail";
+import { WorkItem } from "model/workitem";
 
 class PageWorkItem extends PageItems<any> {
     private searchWorkItemQuery: Query;
@@ -39,8 +40,13 @@ export class CWorkItem extends CUqBase {
     }
 
     //添加任务Start
-    showCreateWorkItem = () => {
-        this.openVPage(VCreateWorkItem);
+    showCreateWorkItem = (model: any) => {
+        let param: WorkItem = {
+            parent: model,
+            item: undefined,
+            child: undefined,
+        }
+        this.openVPage(VCreateWorkItem, param);
     }
 
     showEiditWorkItem = async (model: any) => {
@@ -53,19 +59,36 @@ export class CWorkItem extends CUqBase {
         return await this.cApp.cWorkGrade.call();
     }
 
-    saveWorkItem = async (id: number, param: any) => {
+    saveWorkItem = async (id: number, param: any, parent: any) => {
         let { description, content, grade, deadline } = param;
-        let parrm = { description: description, content: content, deadline: deadline, grade: grade.id, author: this.user.id };
-        await this.uqs.todo.WorkItem.save(id, parrm);
+        let parrm = { isValid: 1, description: description, content: content, deadline: deadline, grade: grade.id, author: this.user.id };
+        let result = await this.uqs.todo.WorkItem.save(id, parrm);
+        if (parent) {
+            await this.uqs.todo.WorkRelation.add({ parent: parent.id, arr1: [{ child: result.id }] });
+            this.closePage();
+        }
         await this.loadList();
     }
+
+    delWorkItem = async (model: any) => {
+        let { id, description, content, grade, deadline, author } = model;
+        await this.uqs.todo.WorkItem.save(id, { isValid: 0, description: description, content: content, grade: grade, author: author, deadline: deadline });
+    }
+
     //添加任务End
 
     //任务明细 Start
     showWorkItemDetail = async (model: any) => {
         let { id } = model;
-        let current = await this.uqs.todo.WorkItem.load(id);
-        this.openVPage(VWorkItemDetail, current);
+        let item = await this.uqs.todo.WorkItem.load(id);
+        let reslutchild = await this.uqs.todo.SearchWorkItem.query({ _parent: id });
+        let child = reslutchild.ret.length > 0 ? reslutchild.ret : undefined;
+        let param: WorkItem = {
+            parent: undefined,
+            item: item,
+            child: child,
+        }
+        this.openVPage(VWorkItemDetail, param);
     }
 
     //任务明细 End

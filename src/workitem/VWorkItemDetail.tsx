@@ -4,12 +4,16 @@ import { observer } from 'mobx-react';
 import { CWorkItem } from './CWorkItem';
 import { setting } from 'configuration';
 import { observable } from 'mobx';
+import { WorkItem } from 'model/workitem';
 
 export class VWorkItemDetail extends VPage<CWorkItem> {
     @observable isShowContent: boolean = false;
     private item: any
-    async open(param: any) {
-        this.item = param;
+    private child: any
+    async open(param: WorkItem) {
+        let { item, child } = param;
+        this.item = item;
+        this.child = child;
         this.openPage(this.page);
     }
 
@@ -17,7 +21,6 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         let { description, grade, deadline, author } = current;
         let left = <div className="mt-2 sm-3 text-muted" >
             <div>作&nbsp;&nbsp;&nbsp;者：{tv(author, v => v.nick)}</div>
-            <div className="mt-1">负责人：{tv(author, v => v.nick)}</div>
             <div className="mt-1">难&nbsp;&nbsp;&nbsp;度：{tv(grade, v => v.name)}</div>
         </div >;
         let content = <div className="mt-2 sm-3 text-muted">
@@ -30,16 +33,26 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         return <LMR className="cursor-pointer w-100 py-2 h6 align-items-center">
             <div><strong>{description}</strong></div>
             <LMR className="small" left={left}>{content}</LMR>
+            <div className="mt-2 d-flex justify-content-end small">
+                <div>
+                    <span>负责人：{tv(author, v => v.nick)}</span>
+                    <span className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "10px", }}></span>
+                </div>
+                <div>
+                    <span>参与人{tv(author, v => v.nick)}</span>
+                    <span className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "10px", }}></span>
+                </div>
+            </div>
         </LMR >;
     }
 
     private rowCom = (current: any) => {
         let style: any = this.isShowContent ? { whiteSpace: "pre-wrap" } : {};
-        let className: any = this.isShowContent ? "iconfont mr-3 mt-2 icon-arrow-up" : "iconfont mr-3 mt-2 icon-arrow-down"
-        return <div onClick={this.onClickContent} className="my-3 text-truncate" >
+        let className: any = this.isShowContent ? "iconfont mr-3 mt-2 icon-fangxiang4" : "iconfont mr-3 mt-2 icon-angle-bottom"
+        return <div className="mt-3 mb-2 text-truncate" >
             <div className="mb-2"><strong>任务内容</strong></div>
             <div className="text-truncate" style={style}><small>{current.content}</small></div>
-            <div className="text-center"><span className={className} ></span></div>
+            <div onClick={this.onClickContent} className="text-center"> <small className={className} ></small></div>
         </div>;
     };
 
@@ -48,7 +61,7 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
     }
 
     private page = observer(() => {
-        let { showEiditWorkItem } = this.controller;
+        let { showEiditWorkItem, showCreateWorkItem } = this.controller;
         let rows: Prop[] = [
             {
                 type: 'component',
@@ -61,16 +74,15 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
 
         ];
 
-        let right_page = <span onClick={() => showEiditWorkItem(this.item)} className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "17px", color: "#ffffff" }}></span>
-        let left = <div className="mb-2"><strong>任务明细</strong></div>;
-
-        let { pageWorkItem } = this.controller;
-
+        let right_page = <span onClick={() => showEiditWorkItem(this.item)} className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "17px", color: "#ffffff" }}></span>;
         return <Page header="任务详情" headerClassName={setting.pageHeaderCss} right={right_page}>
             <PropGrid rows={rows} values={this.item} />
             <div className="sep-product-select" style={{ margin: '0 auto' }} />
-            <LMR className="px-3 pt-2 bg-white" left={left}> </LMR>
-            {pageWorkItem && <List items={pageWorkItem} item={{ render: this.renderItem, onClick: this.onClick }} />}
+            <div className="d-flex justify-content-between px-3 py-1" style={{ backgroundColor: "#bfbfbf" }}>
+                <div><strong>任务明细</strong></div>
+                <div onClick={() => showCreateWorkItem(this.item)} ><span className="iconfont icon-tianjia" style={{ fontSize: "17px" }}></span></div>
+            </div>
+            {this.child && <List items={this.child} item={{ render: this.renderItem }} />}
         </Page >
     })
 
@@ -82,17 +94,20 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
     }
 
     private renderItem = (item: any, index: number) => {
+        let { delWorkItem } = this.controller;
         let { description, deadline, author } = item;
         let right = <div className="text-muted text-right samll" >
             <small>
                 <span>{tv(author, v => v.name)}</span>
                 <EasyDate date={deadline}></EasyDate>
+                <i onClick={() => delWorkItem(item)} className="iconfont icon-shanchu pl-2" style={{ fontSize: "17px", color: "#d81e06" }}></i>
             </small>
         </div>;
-        let left = <div>
+        let left = <div className="w-100" onClick={() => this.onClick(item)}>
             <div className="small"><strong>{description} </strong></div>
         </div>;
-        return <LMR className="my-2 mx-3" left={left} right={right}>
+        return <LMR className="my-2 mx-3" right={right}>
+            {left}
         </LMR >;
     }
 }

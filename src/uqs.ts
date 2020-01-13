@@ -1,4 +1,4 @@
-import { Tuid, Query } from "tonva";
+import { Tuid, Query, Map } from "tonva";
 
 
 export interface UqTodo {
@@ -6,6 +6,7 @@ export interface UqTodo {
     SearchWork: Query;
     SearchWorkItem: Query;
     SearchWorkGrade: Query;
+    WorkRelation: Map;
 }
 
 export interface UqHr {
