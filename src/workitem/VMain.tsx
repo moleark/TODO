@@ -20,7 +20,7 @@ export class VMain extends VPage<CWorkItem> {
                 size='sm'
                 onSearch={(key: string) => searchWorkItemByKey(key)}
                 placeholder="请输入工作任务关键字" />
-            <span onClick={showCreateWorkItem} className="iconfont mr-3 mt-2 icon-tianjia" style={{ fontSize: "17px", color: "#ffffff" }}></span>
+            <span onClick={() => showCreateWorkItem(undefined)} className="iconfont mr-3 mt-2 icon-tianjia" style={{ fontSize: "17px", color: "#ffffff" }}></span>
         </div>;
         return <Page header="工作" headerClassName={setting.pageHeaderCss} right={right} onScrollBottom={this.onScrollBottom}>
             <List items={pageWorkItem} item={{ render: this.renderItem, onClick: showWorkItemDetail }} />
