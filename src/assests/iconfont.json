@@ -370,6 +370,13 @@
       "unicode_decimal": 60553
     },
     {
+      "icon_id": "6921756",
+      "name": "日历",
+      "font_class": "rili1",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    },
+    {
       "icon_id": "6943168",
       "name": "编辑",
       "font_class": "bianji2",

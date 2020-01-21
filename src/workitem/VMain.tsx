@@ -32,7 +32,7 @@ export class VMain extends VPage<CWorkItem> {
     }
 
     private renderItem = (item: any, index: number) => {
-        let { description, grade, deadline, author } = item;
+        let { description, grade, deadline } = item;
 
         let right = <div className="text-muted text-right samll" >
             <div><small><EasyDate date={deadline}></EasyDate></small></div>
@@ -42,7 +42,6 @@ export class VMain extends VPage<CWorkItem> {
             <div><strong>{description} </strong></div>
             <div className="samll text-muted"> <small>王彦彩</small></div>
         </div>;
-        return <LMR className="my-2 mx-3" left={left} right={right}>
-        </LMR >;
+        return <LMR className="my-2 mx-3" left={left} right={right}></LMR >;
     }
 }
