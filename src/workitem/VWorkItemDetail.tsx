@@ -8,13 +8,15 @@ import { WorkItem } from 'model/workitem';
 
 export class VWorkItemDetail extends VPage<CWorkItem> {
     @observable isShowContent: boolean = false;
+
     private item: any
     private child: any
+
     async open(param: WorkItem) {
         let { item, child } = param;
         this.item = item;
         this.child = child;
-        this.openPage(this.page);
+        this.openPage(this.page, param);
     }
 
     private rowTop = (current: any) => {
@@ -49,6 +51,8 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         </div >;
     }
 
+
+
     private rowContent = (current: any) => {
         let style: any = this.isShowContent ? { whiteSpace: "pre-wrap" } : {};
         let className: any = this.isShowContent ? "iconfont mr-3 mt-2 icon-fangxiang4" : "iconfont mr-3 mt-2 icon-angle-bottom"
@@ -61,6 +65,8 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
     private onClickContent = () => {
         this.isShowContent = !this.isShowContent;
     }
+
+
 
     private childItem = () => {
         let { showCreateWorkItem } = this.controller;
@@ -91,21 +97,6 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
             {left}
         </LMR >;
     }
-
-
-
-    private page = observer(() => {
-        let { showEiditWorkItem } = this.controller;
-
-        let right_page = <span onClick={() => showEiditWorkItem(this.item)} className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "17px", color: "#ffffff" }}></span>;
-        return <Page header="任务详情" headerClassName={setting.pageHeaderCss} right={right_page}>
-
-            {this.rowTop(this.item)}
-            {this.childItem()}
-            {this.rowContent(this.item)}
-        </Page >
-    })
-
     onClick = (model: any) => {
         let { showWorkItemDetail } = this.controller;
         if (this.item.id !== model.id) {
@@ -113,5 +104,16 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         }
     }
 
+
+
+    private page = observer((param: WorkItem) => {
+        let { showEiditWorkItem } = this.controller;
+        let right_page = <span onClick={() => showEiditWorkItem(param)} className="iconfont mr-3 mt-2 icon-bianji" style={{ fontSize: "17px", color: "#ffffff" }}></span>;
+        return <Page header="任务详情" headerClassName={setting.pageHeaderCss} right={right_page}>
+            {this.rowTop(this.item)}
+            {this.childItem()}
+            {this.rowContent(this.item)}
+        </Page >
+    })
 
 }

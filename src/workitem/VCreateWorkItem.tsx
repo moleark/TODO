@@ -3,12 +3,13 @@ import { VPage, Page, Form, UiSchema, UiInputItem, UiIdItem, Schema, Context, tv
 import { CWorkItem } from './CWorkItem';
 import { observer } from 'mobx-react';
 import { setting } from 'configuration';
+import { WorkItem } from 'model/workitem';
 
 export class VCreateWorkItem extends VPage<CWorkItem> {
     private form: Form;
     private item: any;
     private parent: any;
-    async open(param?: any) {
+    async open(param?: WorkItem) {
         let { item, parent } = param;
         this.item = item;
         this.parent = parent;
