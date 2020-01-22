@@ -202,6 +202,13 @@
       "unicode_decimal": 58949
     },
     {
+      "icon_id": "2851888",
+      "name": "课件-子目录",
+      "font_class": "kejian-zimulu",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "2857610",
       "name": "失败",
       "font_class": "shibai1",
@@ -468,11 +475,25 @@
       "unicode_decimal": 58904
     },
     {
+      "icon_id": "10782246",
+      "name": "子目录",
+      "font_class": "weibiaoti-",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "11954657",
       "name": "内容",
       "font_class": "neirong",
       "unicode": "e704",
       "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "12864109",
+      "name": "返回子目录",
+      "font_class": "fanhuizimulu",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
     }
   ]
 }

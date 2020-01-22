@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { VPage, Page, SearchBox, List, LMR, EasyDate } from 'tonva';
+import { VPage, Page, SearchBox, List, LMR, EasyDate, tv } from 'tonva';
 import { CWorkItem } from './CWorkItem';
 import { setting } from 'configuration';
 import { observer } from 'mobx-react';
-import { tv } from 'tonva/CApp/cUq/reactBoxId';
+//import { tv } from 'tonva/CApp/cUq/reactBoxId';
 
 export class VMain extends VPage<CWorkItem> {
     async open(param?: any) {
