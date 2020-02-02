@@ -50,9 +50,7 @@ export class CWorkItem extends CUqBase {
     }
 
     showEiditWorkItem = async (model: any) => {
-        let { id } = model;
-        let current = await this.uqs.todo.WorkItem.load(id);
-        this.openVPage(VCreateWorkItem, current);
+        this.openVPage(VCreateWorkItem, model);
     }
 
     pickGrade = async (context: Context, name: string, value: number): Promise<any> => {
