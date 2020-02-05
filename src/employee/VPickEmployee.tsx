@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { VPage, Page, List, LMR } from 'tonva';
+import { VPage, Page, List, LMR ,SearchBox} from 'tonva';
 import { observer } from 'mobx-react';
 import { setting } from 'configuration';
 import { CEmployee } from './CEmployee';
@@ -11,8 +11,12 @@ export class VPickEmployee extends VPage<CEmployee> {
     }
 
     private page = observer(() => {
-        let { pageEmployee } = this.controller;
+        let { pageEmployee ,searchEmployeeByKey} = this.controller;
         return <Page header="选择员工" headerClassName={setting.pageHeaderCss} onScrollBottom={this.onScrollBottom} >
+         <SearchBox className="w-80 mt-1 mr-2"
+                size='sm'
+                onSearch={(key: string) => searchEmployeeByKey(key)}
+                placeholder="请输入工作任务关键字" />
             <List items={pageEmployee} item={{ render: this.renderItem, onClick: this.onClick }} />
         </Page>;
     });
