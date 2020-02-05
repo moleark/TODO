@@ -4,6 +4,7 @@ import { PageItems, Query } from 'tonva';
 import { observable } from 'mobx';
 import { VMain } from './VEmployee.';
 import { observer } from 'mobx-react';
+import { VPickEmployee } from './VPickEmployee';
 
 // 员工
 class PageEmployee extends PageItems<any> {
@@ -30,7 +31,7 @@ export class CEmployee extends CUqBase {
 
     protected async internalStart() {
         await this.searchEmployeeByKey("");
-        this.openVPage(VMain);
+        this.openVPage(VPickEmployee);
     }
 
     searchEmployeeByKey = async (key: string) => {

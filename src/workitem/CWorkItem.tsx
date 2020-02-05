@@ -57,6 +57,10 @@ export class CWorkItem extends CUqBase {
         return await this.cApp.cWorkGrade.call();
     }
 
+    pickEmployee = async (): Promise<any> => {
+        return await this.cApp.cEmployee.call();
+    }
+
     saveWorkItem = async (id: number, param: any, parent: any) => {
         let { description, content, grade, deadline } = param;
         let parrm = { isValid: 1, description: description, content: content, deadline: deadline, grade: grade.id, author: this.user.id };

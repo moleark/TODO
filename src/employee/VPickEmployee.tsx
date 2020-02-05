@@ -5,7 +5,7 @@ import { setting } from 'configuration';
 import { CEmployee } from './CEmployee';
 
 
-export class VPickWorkGrade extends VPage<CEmployee> {
+export class VPickEmployee extends VPage<CEmployee> {
     async open(param?: any) {
         this.openPage(this.page);
     }

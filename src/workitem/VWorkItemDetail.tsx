@@ -30,6 +30,8 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
 
     private rowTop = (current: any) => {
         let { description, grade, deadline, author } = current;
+       
+
         let titleshow = <div className="px-3">
             <i className="iconfont icon-duihao mr-2" style={{ fontSize: "16px", color: "#dbdbdb" }}></i>
             <span className="h5 text-black" ><strong>{description}</strong> </span>
@@ -47,7 +49,7 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         let deadlineright = <i className="iconfont icon-fangxiang1 mx-3"></i>;
         let deadlineshow = deadline && <LMR left={deadlineleft} right={deadlineright}></LMR>
 
-        let operatorshow = <LMR
+        let operatorshow = <LMR onClick={this.controller.pickEmployee} 
             left={<div>
                 <i className="iconfont icon-xiaoren ml-3 mr-2" style={{ fontSize: "16px", color: "#dbdbdb" }}></i>
                 执行人：
