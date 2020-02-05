@@ -27,7 +27,6 @@ class PageWorkItem extends PageItems<any> {
     }
 }
 
-
 export class CWorkItem extends CUqBase {
 
     @observable pageWorkItem: PageWorkItem;
@@ -57,8 +56,10 @@ export class CWorkItem extends CUqBase {
         return await this.cApp.cWorkGrade.call();
     }
 
-    pickEmployee = async (): Promise<any> => {
-        return await this.cApp.cEmployee.call();
+    pickEmployee = async (workitem:any): Promise<any> => {
+
+        let mode:any = await this.cApp.cEmployee.call();
+        this.uqs.todo.AddWorkResponsible.submit({workItem:workitem.id, responsible:  mode.webuser.id});
     }
 
     saveWorkItem = async (id: number, param: any, parent: any) => {
@@ -82,12 +83,12 @@ export class CWorkItem extends CUqBase {
     //任务明细 Start
     showWorkItemDetail = async (model: any) => {
         let { id } = model;
-        let item = await this.uqs.todo.WorkItem.load(id);
+        let item = await this.uqs.todo.SearchWorkDetail.query({_id:id});
         let reslutchild = await this.uqs.todo.SearchWorkItem.query({ _parent: id });
         let child = reslutchild.ret.length > 0 ? reslutchild.ret : undefined;
         let param: WorkItem = {
             parent: undefined,
-            item: item,
+            item: item.ret[0],
             child: child,
         }
         this.openVPage(VWorkItemDetail, param);

@@ -55,7 +55,7 @@ PAGE (
     limit $pageSize;
 };
 
-/** 搜索我的任务*/
+/** 搜索子任务*/
 QUERY SearchWorkItem( _parent ID WorkItem)
 returns ret (
     id bigint,
@@ -75,5 +75,32 @@ returns ret (
 };
 
 
+/** 搜索任务明细*/
+QUERY SearchWorkDetail( _id ID WorkItem)
+returns ret (
+    id bigint,
+    description char(100), --说明
+    content text,          --内容
+    deadline date,   --期限
+    grade ID WorkGrade,      --等级
+    author ID [$user],   --发布人
+    responsible ID [$user],   --负责人
+    responsiblename char(100)     --负责人
+) { 
+    into ret select w.id , w.description, w.content, w.deadline, w.grade, w.author, wp.responsible, e.name as responsiblename
+    from    WorkItem as w
+            left join WorkResponsible as wp on w.id = wp.workItem
+            left join WebuserEmployee as we on we.webuser =wp.responsible
+            left join Employee as e on e.id = we.employee
+    where   w.id = _id;
+};
+  
 
+/**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
+ACTION AddWorkResponsible( 
+    workItem ID WorkItem,
+    responsible ID [$user]
+) {
+     BOOK WorkResponsible at (workItem) set responsible=responsible;
+};
  

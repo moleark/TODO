@@ -2,6 +2,11 @@ import JKHr = 百灵威系统工程部/hr;
 
 TUID Employee from JKHr (
     id,
+     no char(20) not null,
+    name char(30) not null,
     firstName char(20),
     lastName char(20),
+    title char(20),
+    Status char(2),
+    CreateTime datetime
 );

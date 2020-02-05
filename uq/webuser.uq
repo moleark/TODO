@@ -5,3 +5,26 @@ MAP WebuserEmployee(
     key employee ID Employee
 );
 
+/** 搜索员工*/
+QUERY SearchEmployee(key char(100))
+PAGE (
+    id bigint start 0,
+    no char(20) not null,
+    name char(30) not null,
+    firstName char(20),
+    lastName char(20),
+    title char(20),
+    Status char(2),
+    CreateTime datetime,
+    webuser ID [$user]
+) {
+    var key2 char(102);
+    set key2 = concat('%', key, '%');
+
+    PAGE select e.id, e.no, e.name, e.firstName, e.lastName, e.title, e.Status, e.CreateTime, w.webuser
+    from    employee as e
+            join WebuserEmployee as w on e.id = w.employee
+    where   e.id > $pageStart and (e.title like key2 or e.name like key2 )
+    order by e.id
+    limit $pageSize;
+};

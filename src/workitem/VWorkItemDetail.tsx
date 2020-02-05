@@ -29,15 +29,15 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
 
 
     private rowTop = (current: any) => {
-        let { description, grade, deadline, author } = current;
-       
+        let { description, grade, deadline, author,responsible ,responsiblename} = current;
+          
 
         let titleshow = <div className="px-3">
             <i className="iconfont icon-duihao mr-2" style={{ fontSize: "16px", color: "#dbdbdb" }}></i>
             <span className="h5 text-black" ><strong>{description}</strong> </span>
         </div>
         let authorshow = <div className="mt-4">
-            <span className="ml-4 pl-3 text-primary"> 王彦彩</span>
+            <span className="ml-4 pl-3 text-primary"> {this.controller.user.name}</span>
             <span className="mx-2">|</span>
             <span> {<EasyTime date={deadline}></EasyTime>}</span>
         </div>;
@@ -49,11 +49,11 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
         let deadlineright = <i className="iconfont icon-fangxiang1 mx-3"></i>;
         let deadlineshow = deadline && <LMR left={deadlineleft} right={deadlineright}></LMR>
 
-        let operatorshow = <LMR onClick={this.controller.pickEmployee} 
+        let operatorshow = <LMR onClick={()=>this.controller.pickEmployee(current)} 
             left={<div>
                 <i className="iconfont icon-xiaoren ml-3 mr-2" style={{ fontSize: "16px", color: "#dbdbdb" }}></i>
                 执行人：
-                <span className=""> 王彦彩</span>
+                <span className=""> {responsiblename}</span>
             </div>} right={<i className="iconfont icon-fangxiang1  mx-3"></i>}>
         </LMR >;
 
