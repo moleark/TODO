@@ -35,7 +35,7 @@ export class CEmployee extends CUqBase {
     }
 
     searchEmployeeByKey = async (key: string) => {
-        this.pageEmployee = new PageEmployee(this.uqs.todo.SearchEmployee);
+        this.pageEmployee = new PageEmployee(this.uqs.hr.SearchEmployee);
         this.pageEmployee.first({ key: key });
     }
 

@@ -20,7 +20,8 @@ MAP WorkRelation(
 /**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
 BOOK WorkResponsible( 
     key workItem ID WorkItem,
-    responsible ID [$user] --负责人
+    responsible ID [$user], --负责人
+    employee ID Employee --负责人
 );
 
 /**工作明细处理结果**/
@@ -38,12 +39,14 @@ PAGE (
     content text,          --内容
     grade ID WorkGrade,      --等级
     deadline date,   --期限
-    author ID [$user]     --发布人
+    author ID [$user],    --发布人
+    responsible ID [$user], --负责人
+    employee ID Employee --负责人
 ) {
     var key2 char(102);
     set key2 = concat('%', key, '%');
 
-    PAGE select w.id, w.description, w.content, w.grade, w.deadline, w.author
+    PAGE select w.id, w.description, w.content, w.grade, w.deadline, w.author, wr.responsible, wr.employee
     from    WorkItem as w
             left join WorkResponsible as wr on w.id = wr.workItem
     where   w.id > $pageStart and w.isValid = 1 and ( w.description like key2 )
@@ -85,9 +88,10 @@ returns ret (
     grade ID WorkGrade,      --等级
     author ID [$user],   --发布人
     responsible ID [$user],   --负责人
+    employee ID Employee,   --发布人
     responsiblename char(100)     --负责人
 ) { 
-    into ret select w.id , w.description, w.content, w.deadline, w.grade, w.author, wp.responsible, e.name as responsiblename
+    into ret select w.id , w.description, w.content, w.deadline, w.grade, w.author, wp.responsible, wp.employee, e.name as responsiblename
     from    WorkItem as w
             left join WorkResponsible as wp on w.id = wp.workItem
             left join WebuserEmployee as we on we.webuser =wp.responsible
@@ -99,8 +103,9 @@ returns ret (
 /**工作负责人, 只有开始的时候需要指定负责人其他的不需要**/
 ACTION AddWorkResponsible( 
     workItem ID WorkItem,
-    responsible ID [$user]
+    responsible ID [$user],
+    employee ID Employee --负责人
 ) {
-     BOOK WorkResponsible at (workItem) set responsible=responsible;
+     BOOK WorkResponsible at (workItem) set responsible=responsible,employee=employee;
 };
  

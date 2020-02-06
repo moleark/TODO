@@ -57,9 +57,10 @@ export class CWorkItem extends CUqBase {
     }
 
     pickEmployee = async (workitem:any): Promise<any> => {
-
+    
         let mode:any = await this.cApp.cEmployee.call();
-        this.uqs.todo.AddWorkResponsible.submit({workItem:workitem.id, responsible:  mode.webuser.id});
+        this.uqs.todo.AddWorkResponsible.submit({workItem:workitem.id, responsible:  mode.webuser.id,employee: mode.employee.id});
+        await this.searchWorkItemByKey("");
     }
 
     saveWorkItem = async (id: number, param: any, parent: any) => {

@@ -9,7 +9,7 @@ export class VMe extends VPage<CMe> {
     }
     render() {
         return <Page logout={true} headerClassName={setting.pageHeaderCss}>
-            我的
+            我的Id:{this.controller.user.id}
         </Page>;
     }
 }

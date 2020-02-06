@@ -17,8 +17,8 @@ const tabCaption = (caption: string): TabCaption => {
 export class VWorkItemDetail extends VPage<CWorkItem> {
     @observable isShowContent: boolean = false;
 
-    private item: any
-    private child: any
+    private item: any;
+    private child: any;
 
     async open(param: WorkItem) {
         let { item, child } = param;
@@ -29,7 +29,7 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
 
 
     private rowTop = (current: any) => {
-        let { description, grade, deadline, author,responsible ,responsiblename} = current;
+        let { description, grade, deadline, author,responsible ,responsiblename,employee} = current;
           
 
         let titleshow = <div className="px-3">
@@ -53,7 +53,7 @@ export class VWorkItemDetail extends VPage<CWorkItem> {
             left={<div>
                 <i className="iconfont icon-xiaoren ml-3 mr-2" style={{ fontSize: "16px", color: "#dbdbdb" }}></i>
                 执行人：
-                <span className=""> {responsiblename}</span>
+                <span className=""> {tv(employee,v=>v.name)}</span>
             </div>} right={<i className="iconfont icon-fangxiang1  mx-3"></i>}>
         </LMR >;
 
