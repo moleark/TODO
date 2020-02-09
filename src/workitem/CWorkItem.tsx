@@ -60,7 +60,9 @@ export class CWorkItem extends CUqBase {
     
         let mode:any = await this.cApp.cEmployee.call();
         this.uqs.todo.AddWorkResponsible.submit({workItem:workitem.id, responsible:  mode.webuser.id,employee: mode.employee.id});
+        workitem.employee = mode.employee;
         await this.searchWorkItemByKey("");
+        
     }
 
     saveWorkItem = async (id: number, param: any, parent: any) => {
